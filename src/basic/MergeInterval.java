@@ -32,13 +32,14 @@ public class MergeInterval {
         int[][] intervals = {{1,4}, {2,6}, {8,10}, {15,18}};
         int[][] result = a.slove(intervals);
 
+        System.out.println("========================================");
         for (int i=0; i<result.length; i++) {
-            System.out.println("i : " + i);
             for (int j=0; j<result[i].length; j++) {
-                System.out.print("i["+j+"] : " + result[i][j] + " ");
+                System.out.print("result["+i+"]["+j+"] : " + result[i][j] + " ");
             }
             System.out.println();
         }
+        System.out.println("========================================");
 
     }
 
