@@ -50,6 +50,8 @@ public class DailyTemperature {
 
         for (int i=0; i<len; i++) {
 
+            // result에 순서대로 저장되는 것이 아니라 각 순서를 stack 저장해 기억해두고, 조건에 맞는동안 저장된 순서들을 꺼내와
+            // 그 순서에 해당되는 일자에 답을 구하여 result[순서]에 저장한다.
             while (!stack.isEmpty() && temperatures[stack.peek()] < temperatures[i]) {
                 int index = stack.pop();
                 result[index] = i - index;
