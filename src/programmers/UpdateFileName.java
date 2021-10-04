@@ -23,9 +23,10 @@ public class UpdateFileName {
         int result = -1;
         int answer = 0;
         int pos = 0;
+        int cnt = 0;
         Map<String, Integer> map = new HashMap<>();
 
-        while (pos < before.length) {
+        while (cnt < before.length) {
             String str = after[pos];
             for (int j=0; j<before.length; j++) {
                 String a = after[pos];
