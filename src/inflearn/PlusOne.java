@@ -1,4 +1,4 @@
-package basic;
+package inflearn;
 
 public class PlusOne {
 

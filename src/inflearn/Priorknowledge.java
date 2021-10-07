@@ -1,4 +1,4 @@
-package basic;
+package inflearn;
 
 /**
  * String의 간단한 사전지식
