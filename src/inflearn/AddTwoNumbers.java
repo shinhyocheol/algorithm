@@ -14,19 +14,13 @@ package inflearn;
  *      2. 첫번째를 값이 0인 더미 데이터로 생성한다.
  *      3. ListNode 클래스를 생성하고 객체를 생성한다.
  *      4. ListNode 클래스에는 현재의 값인 val과 다음순번의 객체가 담길 ListNode 클래스 타입의 next가 존재한다.
- *
+ *      5. 반복문을 통해 현재요소들의 값을 계산하고 다음순번의 객체를 생성한다.
+ *      6. 현재 요소들의 계산이 끝나면 캐리값을 저장한 후 다음순번의 객체를 현재 요소로 변경하여 계산을 반복한다.
  *
  * @시간복잡도 :
  *
  * @공간복잡도 :
  */
-class ListNode {
-    int val;
-    ListNode next;
-    ListNode (int x) {
-        this.val = x;
-    }
-}
 public class AddTwoNumbers {
 
     public static void main(String[] args) {
@@ -89,7 +83,7 @@ public class AddTwoNumbers {
             // carry = carry(7) / 10;
             // carry = carry(10) / 10;
             // carry = carry(5) / 10;
-            carry /= 10;
+            carry = carry / 10;
 
             System.out.println("carry /= 10 : " + carry);
         }
