@@ -25,12 +25,12 @@ package inflearn;
  *
  * @문제분석 :
  *
- * @시간복잡도 :
- *  대상 :
- *  이유 :
+ * @시간복잡도 : O(M*N)
+ *  대상 : char[][] grid
+ *  이유 : m은 rows, n은 cols
  *
- * @공간복잡도 :
- *  대상 :
+ * @공간복잡도 : O(M*N) worst case
+ *  대상 : 내부 stack 생성
  *  이유 :
  *
  */
@@ -87,14 +87,21 @@ public class NumberOfIsland {
         // i 가 m 의 영역에 포함되지 않는 경우
         // j 가 n 의 영역에 포함되지 않는 경우
         // i의 j번째 요소가 '1'이 아닌 경우
-        if (i < 0 || i >= m || j < 0 || j >= n || grid[i][j] != '1')
+        if (i < 0 || i >= m || j < 0 || j >= n || grid[i][j] != '1') {
             return;
+        } else {
+            System.out.println("[i]: " + i + ", [j] : " + j);
+        }
 
-        grid[i][j] = 'X'; // 방문처리
+        grid[i][j] = 'X'; // 방문처리 (이렇게 해야 이후에 같은 지점을 방문하더라도 재검사 하는 일이 발생하지 않는다.)
 
         for (int[] dir : dirs) {
             dfs(grid, i+dir[0], j+dir[1]);
         }
+    }
+
+    public void bfs() {
+
     }
 
 }
