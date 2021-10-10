@@ -5,7 +5,7 @@ package inflearn;
  * @문제설명 : m X n binary grid가 주어집니다. 각 셀의 값 중에 '1'은 땅이고 '0'은 물입니다.
  *      섬은 물에 의해 둘러싸입니다. 섬은 수직 또는 수평으로 인접하는 땅(1)을 연결함으로써 형성됩니다.
  *      섬은 grid의 네 모서리가 모두 물로 쌓여있다고 가정 할 수 있습니다.
- *      섬의 개수를 리턴하세요.
+ *      섬의 개수를 리턴하세요. DFS 알고리즘을 적용하여 풀어보세요.
  *
  * @input :
  *      grid1 = {
@@ -34,7 +34,7 @@ package inflearn;
  *  이유 :
  *
  */
-public class NumberOfIsland {
+public class NumberOfIsland_DFS {
 
     char[][] grid2 = {
             {'1', '1', '1', '1', '0'},
@@ -55,7 +55,7 @@ public class NumberOfIsland {
 
     public static void main(String[] args) {
 
-        NumberOfIsland a = new NumberOfIsland();
+        NumberOfIsland_DFS a = new NumberOfIsland_DFS();
 
         int result = a.solve();
 
@@ -98,10 +98,6 @@ public class NumberOfIsland {
         for (int[] dir : dirs) {
             dfs(grid, i+dir[0], j+dir[1]);
         }
-    }
-
-    public void bfs() {
-
     }
 
 }
