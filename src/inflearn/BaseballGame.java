@@ -33,11 +33,67 @@ public class BaseballGame {
     public static void main(String[] args) {
 
         String[] strs = {"5", "-2", "4", "C", "D", "9", "+", "+"};
-
+//        String[] strs2 = {"13", "DUP", "4", "POP", "5", "DUP", "+", "DUP", "+", "-"};
+        String[] strs2 = {"5", "6", "+", "-"};
         BaseballGame a = new BaseballGame();
-        int res = a.solve(strs);
+//        int res = a.solve(strs);
+        int res = a.solve2(strs2);
 
         System.out.println("result : " + res);
+
+    }
+
+    public int solve2(String[] strs) {
+        int result = -1;
+        Stack<Integer> stack = new Stack();
+
+        for (String str : strs) {
+            int x = 0;
+            int y = 0;
+            switch(str) {
+                case "POP" :
+
+                    if (stack.isEmpty()) break;
+                    stack.pop();
+                    break;
+
+                case "DUP" :
+
+                    if (stack.isEmpty()) break;
+                    x = stack.peek();
+                    stack.push(x);
+                    break;
+
+                case "+" :
+
+                    if (stack.isEmpty()) break;
+                    x = stack.pop();
+
+                    if (stack.isEmpty()) break;
+                    y = stack.pop();
+
+                    stack.push(x + y);
+
+                    break;
+
+                case "-" :
+                    if (stack.isEmpty()) break;
+                    x = stack.pop();
+
+                    if (stack.isEmpty()) break;
+                    y = stack.pop();
+
+                    stack.push(x - y);
+                    break;
+
+                default :
+                    stack.push(Integer.valueOf(str));
+                    break;
+            }
+        }
+        if (!stack.isEmpty()) result = stack.pop();
+
+        return result;
 
     }
 

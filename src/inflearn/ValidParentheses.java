@@ -50,6 +50,7 @@ public class ValidParentheses {
 
         // 2. for while
         for (int i=0; i<s.length(); i++) {
+            s.replace(s.charAt(i), 'X');
             if (s.charAt(i) == '(' || s.charAt(i) == '{' || s.charAt(i) == '[') {
                 stack.push(s.charAt(i));
             } else if (s.charAt(i) == ')' && !stack.empty() && stack.peek() == '(') {
