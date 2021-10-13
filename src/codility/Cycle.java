@@ -7,10 +7,11 @@ public class Cycle {
     static boolean[] visited;   // 방문여부를 저장할 일차원 배열
     static int[][] graph;       // 인접 행렬을 담을 그래프 배열
     static boolean isCycle;
+    static int cycleCount;
     public static void main(String[] args) {
 
-        int[] v = {1, 2, 3, 4};
-        int[] e = {2, 3, 2, 1};
+        int[] v = {1, 2, 3, 4, 5, 6};
+        int[] e = {2, 3, 4, 5, 6, 1};
 
         graph = new int[v.length][v.length];
         for (int i=0; i<v.length; i++) {
@@ -20,37 +21,34 @@ public class Cycle {
         }
         visited = new boolean[graph.length];
         isCycle = false;
+        cycleCount = 0;
 
-        System.out.println("is Cycle?? : " + isCycle);
+        for (int i=0; i<graph.length; i++) {
+            if (!visited[i]) dfs(i);
+        }
 
-        dfs(0);
-
-        System.out.println("is Cycle?? : " + isCycle);
-
-
+        System.out.println("is cycle?? : " + isCycle);
+        System.out.println("cycel count?? : " + cycleCount);
+        System.out.println("is one cycel ?? : " + (1 == cycleCount ? true : false));
 
     }
 
-    static boolean dfs(int v) {
-        visited[v] = true;
+    static void dfs(int v) {
+        if (visited[v]) { // 이미 방문한 정점이라면
 
-        for (int j = 0; j<graph[v].length; j++) {
-            if (dfs(j)) return true;
+            isCycle = true;
+            cycleCount++;
+
+            return;
         }
 
-        // 이미 방문한 정점인가??
-        if(visited[v])
-            return visited[v] == false;
-
-        // dfs가 실행중임
-        visited[v] = false;
-
-        // 현재정점의 인접정점 탐색
+        visited[v] = true; // 방문표시
         for (int j = 0; j<graph[v].length; j++) {
-            if (dfs(j)) return true;
+            if (graph[v][j] == 1) { // 1이 아닌 곳은 방문 안함
+                dfs(j);
+            }
         }
-        visited[v] = true;
-        return false;
+
     }
 
 }
