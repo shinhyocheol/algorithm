@@ -95,6 +95,7 @@ public class NumberOfIsland_DFS {
 
         grid[i][j] = 'X'; // 방문처리 (이렇게 해야 이후에 같은 지점을 방문하더라도 재검사 하는 일이 발생하지 않는다.)
 
+        // 인접노드 탐색
         for (int[] dir : dirs) {
             dfs(grid, i+dir[0], j+dir[1]);
         }

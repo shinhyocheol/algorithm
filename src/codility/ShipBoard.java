@@ -1,13 +1,13 @@
 package codility;
 
-public class CodingTest2 {
+public class ShipBoard {
 
-    int[][] dirs = {{0, -1}, {0, +1}, {-1, 0}, {+1, 0}};
+    int[][] dirs = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
     int[] result;
 
     public static void main(String[] args) {
         String[] B = {".##.#", "#.#..", "#...#", "#.##."};
-        CodingTest2 a = new CodingTest2();
+        ShipBoard a = new ShipBoard();
         int[] result = a.solution(B);
     }
 
@@ -17,7 +17,7 @@ public class CodingTest2 {
         for (int i=0; i<B.length; i++) {
             for (int j=0; j<B[i].length(); j++) {
                 if (B[i].charAt(j) == '#') {
-                    search(B, i, j, 0);
+                    dfs(B, i, j, 0);
                 }
             }
         }
@@ -25,9 +25,13 @@ public class CodingTest2 {
         return result;
     }
 
-    public void search(String[] B, int i, int j, int cnt) {
+    public void dfs(String[] B, int i, int j, int cnt) {
 
-        if (i < 0 || i >= B.length || j < 0 || j >= B[i].length() || B[i].charAt(j) != '#') {
+        if (i < 0 || i >= B.length || j < 0 || j >= B[i].length()) {
+            return;
+        }
+
+        if (B[i].charAt(j) != '#') {
             if (cnt == 3) {
                 result[2]++;
             } else if (cnt == 2) {
@@ -39,10 +43,11 @@ public class CodingTest2 {
         }
 
         B[i].replace(B[i].charAt(j), 'X');
+        System.out.println(B[i]);
         cnt++;
 
         for (int[] dir : dirs) {
-            search(B, i+dir[0], j+dir[1], cnt);
+            dfs(B, i+dir[0], j+dir[1], cnt);
         }
 
     }

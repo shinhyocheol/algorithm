@@ -4,42 +4,53 @@ import java.util.Stack;
 
 public class Cycle {
 
-    static int[][] graph;   // 정점과 간선을 담을 그래프 이차원 배열
     static boolean[] visited;   // 방문여부를 저장할 일차원 배열
-    static boolean isCycle; // 싸이클 여부
-
+    static int[][] graph;       // 인접 행렬을 담을 그래프 배열
+    static boolean isCycle;
     public static void main(String[] args) {
 
-        Cycle cycle = new Cycle();
+        int[] v = {1, 2, 3, 4};
+        int[] e = {2, 3, 2, 1};
 
-        int[] n = {1, 2, 3};
-        int[] e = {2, 3, 2};
-
-        graph = new int[n.length][2];
-        for (int i=0; i<n.length; i++) {
-           graph[i][0] = n[i];
-           graph[i][1] = e[i];
+        graph = new int[v.length][v.length];
+        for (int i=0; i<v.length; i++) {
+           int x = v[i];
+           int y = e[i];
+           graph[x-1][y-1] = 1;
         }
         visited = new boolean[graph.length];
+        isCycle = false;
 
-        int i = 0;
-        for (int[] g : graph) {
-            dfs(g, i, 0);
-            i++;
-        }
-        System.out.println("is Cycle ?? : " + isCycle);
+        System.out.println("is Cycle?? : " + isCycle);
+
+        dfs(0);
+
+        System.out.println("is Cycle?? : " + isCycle);
+
+
+
     }
 
-    static void dfs(int[] g, int i, int cnt) {
-        if (visited[i])  {
-            if (visited.length - 1 == cnt) { // 모든 정점을 방문한 상태인가??
-                isCycle = true;
-            }
-            return; // 이미 방문한 곳이므로 다음 로직 수행 X
+    static boolean dfs(int v) {
+        visited[v] = true;
+
+        for (int j = 0; j<graph[v].length; j++) {
+            if (dfs(j)) return true;
         }
-        visited[i] = true; // 방문처리
-        cnt++; // 방문카운트 적립
-        dfs(g, g[1] - 1, cnt); // 간선을 통해 해당 정점 방문
+
+        // 이미 방문한 정점인가??
+        if(visited[v])
+            return visited[v] == false;
+
+        // dfs가 실행중임
+        visited[v] = false;
+
+        // 현재정점의 인접정점 탐색
+        for (int j = 0; j<graph[v].length; j++) {
+            if (dfs(j)) return true;
+        }
+        visited[v] = true;
+        return false;
     }
 
 }
