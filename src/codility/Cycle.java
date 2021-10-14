@@ -35,16 +35,15 @@ public class Cycle {
 
     static void dfs(int v) {
         if (visited[v]) { // 이미 방문한 정점이라면
-
             isCycle = true;
             cycleCount++;
-
             return;
         }
 
         visited[v] = true; // 방문표시
         for (int j = 0; j<graph[v].length; j++) {
-            if (graph[v][j] == 1) { // 1이 아닌 곳은 방문 안함
+            // 1인 경우 해당 순번의 인덱스가 간선이 되므로 dfs 탐색
+            if (graph[v][j] == 1) {
                 dfs(j);
             }
         }
