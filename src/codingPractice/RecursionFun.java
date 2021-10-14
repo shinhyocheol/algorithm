@@ -12,7 +12,7 @@ public class RecursionFun {
 
         // 일반 정수형 변수는 주소가 아닌 값을 참조하기때문에 당연히 함수로 넘겨 값을 바꿔도 그에 대한 값을 돌려받지 않는 한 바뀌지 않는다.
         int num = 0;
-        
+
         for (int i=0; i<arr.length; i++) {
             System.out.println("arr : " + arr[i]);
             System.out.println("num : " + num);

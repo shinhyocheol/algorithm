@@ -17,6 +17,7 @@ public class Cycle {
         for (int i=0; i<v.length; i++) {
            int x = v[i];
            int y = e[i];
+
            graph[x-1][y-1] = 1;
         }
         visited = new boolean[graph.length];

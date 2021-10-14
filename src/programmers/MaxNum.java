@@ -24,5 +24,6 @@ public class MaxNum {
             answer += result[i];
         }
 
+        System.out.println(answer);
     }
 }
