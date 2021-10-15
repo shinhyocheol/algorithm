@@ -104,6 +104,7 @@ public class NumberOfIsland_BFS {
         return result;
     }
     public void bfs(char[][] grid, int x, int y) {
+
         grid[x][y] = 'X'; // 방문 표시를 해놓음.
         Queue<int[]> queue = new LinkedList<>();
 
@@ -126,8 +127,11 @@ public class NumberOfIsland_BFS {
                 // 큐에 저장된 순서대로 꺼내와서 탐색한다는 것을 기억할 것
                 // 큐에 비어있다면 방문해야할 인접요소가 없다는 뜻이므로 반복문 종료
                 if (x1 >= 0 && y1 >= 0 && x1 < rowSize && y1 < colSize && grid[x1][y1] == '1') {
-                    grid[x1][y1] = 'X'; // 탐색했으니 방문표시
-                    queue.offer(new int[] {x1, y1}); // 탐색한 곳이 땅이라면 탐색한 요소의 인접요소를 검사해야하니 해당 요소 좌표 큐에 저장
+                    // 탐색했으니 방문표시
+                    grid[x1][y1] = 'X';
+
+                    // 탐색한 곳이 땅이라면 탐색한 요소의 인접요소를 검사해야하니 해당 요소 좌표 큐에 저장
+                    queue.offer(new int[] {x1, y1});
                 }
             }
 
