@@ -83,22 +83,33 @@ public class WordSearch {
             return false;
 
         // 해당정점을 이미 방문했다면 탐색 X
-        if (visited[x][y]) return false;
-        
-        if (borad[x][y] != word.charAt(start)) return false;
+        if (visited[x][y])
+            return false;
+
+        // 방문하는 정점의 글자가 현재 누적된 순서에 해당되는 글자가 아니라면 탐색 X
+        if (borad[x][y] != word.charAt(start))
+            return false;
 
         visited[x][y] = true;
+            // 탐색표시
+
+        // 상하좌우 탐색
+        start++;
         for (int[] dir : dirs) {
 
             int x1 = x+dir[0];
             int y1 = y+dir[1];
 
-            if (dfs(borad, visited, dirs, x1, y1, (start+1), word)) {
+            // 탐색하고자 하는 정점이 찾고자 하는 곳이라면 true를 반환해서 탐색 마무리함.
+            if (dfs(borad, visited, dirs, x1, y1, start, word)) {
                 return true;
             }
         }
 
+        // 다른시점에서 다시 확인해볼 수 있으니 방문저장표시 초기화
         visited[x][y] = false;
+
+        // 여기까지 왔다는것은 찾는 글자를 못찾았다는 뜻이므로 false 리턴
         return false;
     }
 }
