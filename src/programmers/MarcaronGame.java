@@ -1,10 +1,7 @@
 package programmers;
 
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 문제 설명
@@ -50,7 +47,7 @@ import java.util.Map;
  * 게임 보드에서 빈칸은 0, 마카롱이 채워진 칸은 해당 마카롱의 색을 나타내는 자연수를 채우면 됩니다.
  * 입출력 예
  * macaron	result
- * [[1,1],[2,1],[1,2],[3,3],[6,4],[3,1],[3,3],[3,3],[3,4],[2,1]]	["000000","000000","000000","000000","000000","204004"]
+ * [[1,1],[2,1],[1,2],[3,3],[6,4],[3,1],[3,3],[3,3],[3,4],[2,1]]	["000000","000000","000000","000000","000000","203004"]
  * [[1,1],[1,2],[1,4],[2,1],[2,2],[2,3],[3,4],[3,1],[3,2],[3,3],[3,4],[4,4],[4,3],[5,4],[6,1]]	["000000","000000","000000","000000","000000","404001"]
  * 입출력 예 설명
  * 입출력 예 #1
@@ -81,6 +78,7 @@ public class MarcaronGame {
 
     public String[] solution(int[][] input) {
 
+        // 결과를 담을 String 배열
         String[] result = new String[6];
 
         // 방문표시용 초기화
@@ -97,39 +95,30 @@ public class MarcaronGame {
             }
         }
 
+        // 마카롱을 지정된 위치로 이동
         for (int i=0; i<input.length; i++) {
             for (int j=0; j<board.length; j++) {
                 int boardX = 5-j;
                 int boardY = input[i][0] - 1;
                 if (board[boardX][boardY] == '0') {
                     board[boardX][boardY] = (char)(input[i][1] + '0');
-
                     // 마카롱이 떨어지는 순간 보드탐색 시작
-//                    dfs(board, visited, 0, 0, 0, board[0][0], map);
+                    for (int x=0; x<board.length; x++) {
+                        for (int y=0; y<board[x].length; y++) {
+                            if (board[x][y] != '0') {
+                                visited = new boolean[6][6];
+                                listMap = new ArrayList<>();
+                                dfs(board, visited, x, y, 0, board[x][y], listMap);
+                            }
+                        }
+                    }
                     break;
                 }
             }
         }
-
-        for (int i=0; i<board.length; i++) {
-            for (int j=0; j<board[i].length; j++) {
-                if (board[j][i] != '0') {
-                    visited = new boolean[6][6];
-                    listMap = new ArrayList<>();
-                    System.out.println("===============================================================================");
-                    dfs(board, visited, j, i, 0, board[j][i], listMap);
-                    System.out.println("===============================================================================");
-                }
-            }
-        }
-
-        for (int i=0; i<board.length; i++) {
-//            for (int j=0; j<board.length; j++) {
-//                System.out.print(board[i][j] + " ");
-//            }
-//            System.out.println();
+        // char 배열 String으로 변환 후 result로 저장
+        for (int i=0; i<board.length; i++)
             result[i] = new String(board[i]);
-        }
 
         return result;
     }
@@ -146,26 +135,27 @@ public class MarcaronGame {
 
         // 현재의 마카롱과 넘겨받은 마카롱이 다르다면 더이상 탐색 X
         // 누적포인트 체크
-        if (board[x][y] != searchColor) {
-            point = 0;
+        if (board[x][y] != searchColor)
             return;
-        }
-
-        System.out.print("visited : " + visited[x][y] + ", x : " + x + ", y : " + y);
-        System.out.print(", point : " + point + ", macaronColor : " + board[x][y]);
-        System.out.println(", searchColor : " + searchColor + ", map : " + listMap);
 
         // 누적포인트 확인해서 3을 넘어가면 해당구역 터뜨리기
         if (point >= 3) {
+            // 포인트를 누적시키며 저장했던 좌표들을 가져오고, 터뜨린다.
             board[x][y] = '0';
             for (int i=0; i<listMap.size(); i++) {
                 for (int key : listMap.get(i).keySet()) {
                     int val = listMap.get(i).get(key);
                     board[key][val] = '0';
                 }
-                listMap.remove(i);
             }
+            // 포인트를 누적시키면서 저장한 좌표들을 전부 삭제한다.
+            listMap.removeAll(listMap);
+
+            // 마카롱 보드 업데이트
+            boardSet(board);
+            return;
         }
+
 
         // 현 탐색좌표 방문저장하고, map에 좌표 저장
         visited[x][y] = true;
@@ -183,9 +173,31 @@ public class MarcaronGame {
             int y1 = y + dir[1];
 
             dfs(board, visited, x1, y1, (point + 1), searchColor, listMap);
-
         }
+
     }
 
+    // 마카롱 보드를 업데이트
+    public void boardSet(char[][] board) {
+        // X 축의 마지막 전부터 시작하여 몇가지 규칙에 의거하여 맞춰 요소를 이동시킨다.
+        int rows = board.length;
+        int cols = board.length;
+
+        for (int i=0; i<rows; i++) {
+            for (int j=1; j<cols; j++) {
+                int boardX = 5-j;
+                if (boardX == 0) {
+                    if (board[boardX+1][i] == '0') {
+                        board[boardX][i] = '0';
+                    }
+                } else {
+                    if (board[boardX+1][i] == '0') {
+                        board[boardX+1][i] = board[boardX][i];
+                        board[boardX][i] = '0';
+                    }
+                }
+            }
+        }
+    }
 
 }
