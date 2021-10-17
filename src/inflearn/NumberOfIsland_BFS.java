@@ -96,7 +96,7 @@ public class NumberOfIsland_BFS {
                 if (grid[i][j] == '1') {
                     result++;
                     // 인접요소가 '1'이라면 연결된 땅이므로 카운트가 되지 않아야 한다.
-                    // 재귀함수를 통해 탐색
+                    // bfs 탐색을 통해 인접땅 확인
                     bfs(grid, i, j);
                 }
             }
@@ -107,6 +107,7 @@ public class NumberOfIsland_BFS {
 
         grid[x][y] = 'X'; // 방문 표시를 해놓음.
         Queue<int[]> queue = new LinkedList<>();
+
 
         queue.offer(new int[] {x, y}); // 0, 0
 
