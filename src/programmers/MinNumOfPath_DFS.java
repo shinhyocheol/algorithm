@@ -1,6 +1,5 @@
 package programmers;
 
-import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
@@ -39,13 +38,8 @@ public class MinNumOfPath_DFS {
         // 열의 길이
         int cols = board[0].length;
 
-        // 탐색 범위를 벗어난다면 탐색 중지
-        if (x<0 || y<0 || x>=rows || y>=cols)
-            return;
-
         // 가장 끝 지점에 도착하면 합산 점수 큐에 넣고 탐색 끝
         if (x == (rows-1) && y == (cols-1)) {
-            System.out.println("SUM : " + sum);
             queue.offer(sum);
             return;
         }
@@ -57,16 +51,21 @@ public class MinNumOfPath_DFS {
         // 방문처리하고 숫자 집계
         visited[x][y] = true;
 
+        // 상하좌우 좌표(여기서 상에 대한 좌표를 제외 시킬 수 있는 경우가 존재함)
         int[][] dirs = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+
+        // 현재 위치에서 상하좌우 좌표 체크
         for (int[] dir : dirs) {
             int x1 = x + dir[0];
             int y1 = y + dir[1];
+
+            // 탐색 범위를 벗어난다면 탐색 X
             if (x1>=0 && y1>=0 && x1<rows && y1<cols) {
                 dfs(board, visited, queue, (sum + board[x1][y1]), x1, y1);
             }
         }
 
-        // 다른 곳은 경로가 이 정점을 지날 수 있음.
+        // 다른 경로가 이 정점을 사용할 수 있음
         visited[x][y] = false;
     }
 
