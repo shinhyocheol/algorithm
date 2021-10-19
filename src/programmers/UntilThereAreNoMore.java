@@ -28,7 +28,7 @@ public class UntilThereAreNoMore {
 
         int result = 1; // 결과
         for (int i=0; i<k; i++) {
-            
+
             sb.append(n);
             result++;
 
