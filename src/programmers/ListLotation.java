@@ -1,7 +1,6 @@
 package programmers;
 
-import java.util.PriorityQueue;
-import java.util.Queue;
+import java.util.*;
 
 public class ListLotation {
 
@@ -10,7 +9,6 @@ public class ListLotation {
         int rows = 6;
         int cols = 6;
         int[][] queries = {{2, 2, 5, 4}, {3, 3, 6, 6}, {5, 1, 6, 3}};
-
         ListLotation a = new ListLotation();
 
         int[] result = a.solution(rows, cols, queries);
@@ -40,7 +38,6 @@ public class ListLotation {
         }
 
         System.out.println();
-
         // 오름차순
         for (int i=0; i<queries.length; i++) {
             Queue<Integer> queue = new PriorityQueue<>((a, b) -> a - b);
