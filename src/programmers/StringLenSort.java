@@ -12,8 +12,8 @@ public class StringLenSort {
     }
 
     public String[] solution(String[] strs) {
-        String[] result = {};
         Set<String> set = new HashSet<>(Arrays.asList(strs));
+
         Queue<String> queue = new PriorityQueue<>(new Comparator<String>() {
             @Override
             public int compare(String a, String b) {
@@ -30,19 +30,14 @@ public class StringLenSort {
                 }
             }
         });
-
-        for (String str : strs) {
-            set.add(str);
-        }
         for (String str : set) {
             queue.offer(str);
         }
 
-        result = new String[queue.size()];
+        String[] result = new String[queue.size()];
         while (!queue.isEmpty()) {
             System.out.println(queue.poll());
         }
-
 
         return result;
     }
