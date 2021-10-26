@@ -1,9 +1,6 @@
 package programmers;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.PriorityQueue;
-import java.util.Queue;
+import java.util.*;
 
 /**
  * ## 문제 설명 :
@@ -54,72 +51,71 @@ public class DiskController {
 
         int result = a.solution(jobs);
 
-//        System.out.println("Result :" + result);
+        System.out.println("Result : " + result);
     }
 
     public int solution(int[][] jobs) {
-        int result = 0;
-
         /**
          * 1. 앞순서가 완료될때까지 뒷순서는 작업을 시작할 수 없다(계산이 이루어지면 안된다)
          * 2. 들어온 순서가 아닌 각 작업이 완료되는데에 최소치 순서로 진행이 되어야 평균치를 낮출 수 있다.
+         * 3. 처음부터 순서를 정할 수 없다. 이 문제에서는 요청시간이 주어지므로 요청시간순으로 1차 정렬한다.
+         * 4. 대기 큐와 작업 큐 두개의 우선순위 큐를 준비한다.
+         *      대기 큐 : 요청시간을 기준으로 오름차순 정렬한다.
+         *      작업 큐 : 작업시간을 기준으로 오름차순 정렬한다.
+         * 5. 대기 큐에 먼저 모든 작업들을 저장한다.
+         * 6. 현재시간 이하(작거나 같은)의 요청시간을 가지는 작업들을 작업 큐로 옮긴다.
+         * 7. 작업 큐에 작업을 꺼내어 현재 시간에 작업 시간을 더한다.
+         * 8. 현재시간에 작업의 요청시간을 빼서 해당 작업이 완료되기까지의 총 소요 시간을 구한다.
+         * 9. 해당 작업은 완료되었으니 완료된 작업수를 1 증가한다.
+         * 10. 대기큐에 작업들이 남아있으나 작업큐에 작업들이 남아있지 않다면
+         *      현재시간이 대기 큐에 존재하는 작업들의 요청시간보다 작다는 뜻이므로
+         *      현재시간을 1씩 계속 증가시킨다.
          */
-        Queue<int[]> queue = new PriorityQueue<>((a, b) -> (a[1] - a[0]) - (b[1]) - b[0]);
-        List<Integer> success = new ArrayList<>();
-        for (int i=0; i<jobs.length; i++) {
-            queue.offer(jobs[i]);
+
+        // 대기큐
+        Queue<int[]> waiting = new PriorityQueue<>((a, b) -> (a[0] - b[0]));
+        // 작업큐
+        Queue<int[]> working = new PriorityQueue<>((a, b) -> (a[1] - b[1]));
+
+        // 대기큐에 작업들 저장(우선순위 큐이므로 요청시간을 기준으로 오름차순 정렬된다.
+        for (int[] job : jobs) {
+            waiting.offer(job);
         }
 
-        int cnt = 0;
-        int cur = 0;
+        int result = 0; // 작업이 완료되기까지의 총 소요시간
+        int cnt = 0;    // 완료된 작업 수
+        int time = waiting.peek()[0];   // 대기큐에서 가장 첫번째 요청시간을 확인한다.
 
+        // 작업이 완료될때까지
+        while (cnt < jobs.length) {
+            // 작업큐가 비어있지않고, 대기중인 작업들중 현재시간보다 요청시간이 작거나 같은것들은
+            // 모두 작업큐로 저장
+            while (!waiting.isEmpty() && waiting.peek()[0] <= time) {
+                working.offer(waiting.poll());
+            }
 
-        while (!queue.isEmpty()) {
-            int[] job = queue.poll();
+            // 작업큐가 비어있지 않다면
+            if (!working.isEmpty()) {
+                // 먼저 저장된 작업을 꺼내어
+                int[] job = working.poll();
+                // 현지시간에 꺼낸 작업의 소요시간을 더하고
+                time += job[1];
+                // 현재시간에서 작업의 원래 요청시간을 빼내어서 해당 작업의 총 소요시간을 구한다.
+                result += time - job[0];
 
-            // 0 + (cur(0) - 0) : 0 < 3 + sum(0) - 0) : 3
-            // 0 + (cur(1) - 0) : 1 < 3 + sum(0) - 0) : 3
-            // 0 + (cur(2) - 0) : 2 < 3 + sum(0) - 0) : 3
-            // 0 + (cur(3) - 0) : 3 < 3 + sum(0) - 0) : 3
-
-            // 작업완료했으니 큐에서 제거하고, 다음순서
-            // 2 + (cur(3) - 2) : 3 < 9 (8 + (sum(3) - 2))
-            // 2 + (cur(4) - 2) : 4 < 9 (8 + (sum(3) - 2))
-            // 2 + (cur(5) - 2) : 5 < 9 (8 + (sum(3) - 2))
-            // 2 + (cur(6) - 2) : 6 < 9 (8 + (sum(3) - 2))
-            // 2 + (cur(7) - 2) : 7 < 9 (8 + (sum(3) - 2))
-            // 2 + (cur(8) - 2) : 8 < 9 (8 + (sum(3) - 2))
-            // 2 + (cur(9) - 2) : 9 < 9 (8 + (sum(3) - 2))
-
-            // 작업완료했으니 큐에서 제거하고, 다음순서로
-            // 1 + (cur(9) - 1) : 9 < 18 (10 + (sum(9) - 1))
-            // 1 + (cur(10) - 1) : 10 < 18 (10 + (sum(9) - 1))
-            // 1 + (cur(11) - 1) : 11 < 18 (10 + (sum(9) - 1))
-            // 1 + (cur(12) - 1) : 12 < 18 (10 + (sum(9) - 1))
-            // 1 + (cur(13) - 1) : 13 < 18 (10 + (sum(9) - 1))
-            // 1 + (cur(14) - 1) : 14 < 18 (10 + (sum(9) - 1))
-            // 1 + (cur(15) - 1) : 15 < 18 (10 + (sum(9) - 1))
-            // 1 + (cur(16) - 1) : 16 < 18 (10 + (sum(9) - 1))
-            // 1 + (cur(17) - 1) : 17 < 18 (10 + (sum(9) - 1))
-            // 1 + (cur(18) - 1) : 18 < 18 (10 + (sum(9) - 1))
-
-            if ( (job[0] + (cnt - job[0])) < ((job[0] + job[1]) + (cur - job[0])) ) {
+                // 그리고 작업완료 카운트 증가
                 cnt++;
-                queue.offer(job);
             } else {
-                cur = cnt;
-                success.add((cnt - job[0]));
+                // 작업큐가 비어있는 경우 현재시간에 +1을 더해 시간을 계속 진행시킨다.
+                // 만약 1 -> 3, 6 -> 8 두개의 작업이 존재할때에는
+                // 첫번째 작업이 끝난 후 작업이 남아있는 상태에서 현재시간을 증가시켜야
+                // 두번째 작업의 요청시간에 도달할 수 있다.
+                time++;
             }
         }
-        success.forEach((val) -> System.out.println("작업 소요 시간 : " + val));
-        int sum = 0;
-        for (int val : success) {
-            sum += val;
-        }
-        System.out.println("총 소요시간 : " + sum);
-        int avg = sum / success.size();
 
-        return avg;
+        // 총 소요시간 / 작업 수
+        return result / cnt;
     }
 
 }
