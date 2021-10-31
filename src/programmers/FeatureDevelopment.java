@@ -5,6 +5,7 @@ import java.util.*;
 public class FeatureDevelopment {
 
     public static void main(String[] args) {
+
         int[] progresses = {95, 90, 99, 99, 80, 99};
         int[] speeds = {1, 1, 1, 1, 1, 1};
 
