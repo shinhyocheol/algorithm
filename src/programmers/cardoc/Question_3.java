@@ -19,7 +19,7 @@ public class Question_3 {
     public static void main(String[] args) {
 
         Question_3 a = new Question_3();
-        int n = 9;
+        int n = 99;
         int result = a.solution(n);
 
 //        System.out.println("result : " + result);
@@ -44,9 +44,20 @@ public class Question_3 {
         }
 
         // n번째에 들어가는 수 구하기
-        int num = (n-(base+1)) / idx + (int)Math.pow(10, idx-1);
+        // if n = 9 : 8 / 1 = 8 -> 0부터 시작
+        System.out.println("n : " + n + ", base : " + base + ", idx : " + idx + ", pow() : " + (int)Math.pow(10, idx-1));
+        System.out.println("tmp : " + (n-(base+1)) / idx);
+        System.out.println("tmp2 : " + (int)Math.pow(10, idx-1));
+
+        int tmp = (n-(base+1)) / idx;
+        int tmp2 = (int)Math.pow(10, idx-1);
+        System.out.println("tmp / tmp2 : " + tmp/tmp2);
+
+        int num = ((n-(base+1)) / idx) + (int)Math.pow(10, idx-1);
+
         // n에서 base+1을 뺀 수에 i를 나눈 나머지를 구해서 n번째로 들어간 수의 몇번째 요소를 가져올지 구한다.
         int digit = (n-(base+1)) % idx;
+        System.out.println("digit : " + digit);
 
         // 출력
         System.out.println("num : " + num);
