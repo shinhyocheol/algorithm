@@ -5,7 +5,9 @@ import java.util.Arrays;
 public class Question_1 {
 
     public static void main(String[] args) {
-
+        /**
+         * 시간복잡도 : O(arrA.length - 1) -> arrA.length - 1만큼의 반복문이 실행된다.
+         */
         Question_1 a = new Question_1();
         int[] arrA = {7, 8, 10};
         int[] arrB = {10, 7, 8};

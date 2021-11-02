@@ -3,7 +3,10 @@ package programmers.cardoc;
 public class Question_4 {
 
     public static void main(String[] args) {
-
+        /**
+         *
+         * 시간복잡도 : O(n*m) -> n : 1년 개월 수 * m : 해당월의 일수 만큼 반복문을 실행하여 달력을 세팅함
+         */
         Question_4 a = new Question_4();
         int day = 6;
         int k = 1;
@@ -31,6 +34,7 @@ public class Question_4 {
         // 달력부터 세팅
         for (int i=0; i<monthList.length; i++) {
 
+            // 해당월의 길이 결정
             int[] month = new int[monthList[i]];
 
             for (int j=0; j<month.length; j++) {
@@ -41,8 +45,8 @@ public class Question_4 {
                 else
                     month[j] = 0;
 
-                // monthStart가 6이 되면 다시 0으로 돌려놓고
-                // 아니면 1씩 증가
+                // monthStart가 6이라면 더이상 다시 0으로 돌려놓고
+                // 아니면 1씩 증가(monthStart는 최대 6까지 증가할 수 있음)
                 if (monthStart == 6) monthStart = 0;
                 else monthStart++;
 
