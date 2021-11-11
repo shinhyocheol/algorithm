@@ -607,14 +607,14 @@ public class HashMapEx<K, V> extends AbstractMap<K, V> implements Map<K, V>, Clo
 
     final class KeySet extends AbstractSet<K> {
         public final int size()                 { return size; }
-        public final void clear()               { HashMap.this.clear(); }
-        public final Iterator<K> iterator()     { return new HashMap.KeyIterator(); }
+        public final void clear()               { HashMapEx.this.clear(); }
+        public final Iterator<K> iterator()     { return new HashMapEx.KeyIterator(); }
         public final boolean contains(Object o) { return containsKey(o); }
         public final boolean remove(Object key) {
             return removeNode(hash(key), key, null, false, true) != null;
         }
         public final Spliterator<K> spliterator() {
-            return new HashMapEx.KeySpliterator<>(HashMap.this, 0, -1, 0, 0);
+            return new HashMapEx.KeySpliterator<>(HashMapEx.this, 0, -1, 0, 0);
         }
         public final void forEach(Consumer<? super K> action) {
             HashMapEx.Node<K,V>[] tab;
@@ -659,7 +659,7 @@ public class HashMapEx<K, V> extends AbstractMap<K, V> implements Map<K, V>, Clo
     final class Values extends AbstractCollection<V> {
         public final int size()                 { return size; }
         public final void clear()               { HashMapEx.this.clear(); }
-        public final Iterator<V> iterator()     { return new HashMap.ValueIterator(); }
+        public final Iterator<V> iterator()     { return new HashMapEx.ValueIterator(); }
         public final boolean contains(Object o) { return containsValue(o); }
         public final Spliterator<V> spliterator() {
             return new HashMapEx.ValueSpliterator<>(HashMapEx.this, 0, -1, 0, 0);
@@ -703,7 +703,7 @@ public class HashMapEx<K, V> extends AbstractMap<K, V> implements Map<K, V>, Clo
 
     final class EntrySet extends AbstractSet<Map.Entry<K,V>> {
         public final int size()                 { return size; }
-        public final void clear()               { HashMap.this.clear(); }
+        public final void clear()               { HashMapEx.this.clear(); }
         public final Iterator<Map.Entry<K,V>> iterator() {
             return new HashMapEx.EntryIterator();
         }
@@ -725,7 +725,7 @@ public class HashMapEx<K, V> extends AbstractMap<K, V> implements Map<K, V>, Clo
             return false;
         }
         public final Spliterator<Map.Entry<K,V>> spliterator() {
-            return new HashMapEx.EntrySpliterator<>(HashMap.this, 0, -1, 0, 0);
+            return new HashMapEx.EntrySpliterator<>(HashMapEx.this, 0, -1, 0, 0);
         }
         public final void forEach(Consumer<? super Map.Entry<K,V>> action) {
             HashMapEx.Node<K,V>[] tab;
@@ -865,7 +865,7 @@ public class HashMapEx<K, V> extends AbstractMap<K, V> implements Map<K, V>, Clo
         if (remappingFunction == null)
             throw new NullPointerException();
         int hash = hash(key);
-        HashMapEx.Node<K,V>[] tab; HashMap.Node<K,V> first; int n, i;
+        HashMapEx.Node<K,V>[] tab; HashMapEx.Node<K,V> first; int n, i;
         int binCount = 0;
         HashMapEx.TreeNode<K,V> t = null;
         HashMapEx.Node<K,V> old = null;
@@ -1095,7 +1095,7 @@ public class HashMapEx<K, V> extends AbstractMap<K, V> implements Map<K, V>, Clo
             // what we're actually creating.
             SharedSecrets.getJavaOISAccess().checkArray(s, Map.Entry[].class, cap);
             @SuppressWarnings({"rawtypes","unchecked"})
-            HashMap.Node<K,V>[] tab = (HashMap.Node<K,V>[])new HashMap.Node[cap];
+            HashMapEx.Node<K,V>[] tab = (HashMapEx.Node<K,V>[])new HashMapEx.Node[cap];
             table = tab;
 
             // Read the keys and values, and put the mappings in the HashMap
@@ -1292,7 +1292,7 @@ public class HashMapEx<K, V> extends AbstractMap<K, V> implements Map<K, V>, Clo
         public HashMapEx.ValueSpliterator<K,V> trySplit() {
             int hi = getFence(), lo = index, mid = (lo + hi) >>> 1;
             return (lo >= mid || current != null) ? null :
-                    new HashMap.ValueSpliterator<>(map, lo, index = mid, est >>>= 1,
+                    new HashMapEx.ValueSpliterator<>(map, lo, index = mid, est >>>= 1,
                             expectedModCount);
         }
 
@@ -1519,7 +1519,7 @@ public class HashMapEx<K, V> extends AbstractMap<K, V> implements Map<K, V>, Clo
         /**
          * Ensures that the given root is the first node of its bin.
          */
-        static <K,V> void moveRootToFront(HashMapEx.Node<K,V>[] tab, HashMap.TreeNode<K,V> root) {
+        static <K,V> void moveRootToFront(HashMapEx.Node<K,V>[] tab, HashMapEx.TreeNode<K,V> root) {
             int n;
             if (root != null && tab != null && (n = tab.length) > 0) {
                 int index = (n - 1) & root.hash;
@@ -1529,7 +1529,7 @@ public class HashMapEx<K, V> extends AbstractMap<K, V> implements Map<K, V>, Clo
                     tab[index] = root;
                     HashMapEx.TreeNode<K,V> rp = root.prev;
                     if ((rn = root.next) != null)
-                        ((HashMap.TreeNode<K,V>)rn).prev = rp;
+                        ((HashMapEx.TreeNode<K,V>)rn).prev = rp;
                     if (rp != null)
                         rp.next = rn;
                     if (first != null)
