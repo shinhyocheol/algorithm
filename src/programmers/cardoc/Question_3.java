@@ -22,7 +22,7 @@ public class Question_3 {
         int n = 99;
         int result = a.solution(n);
 
-//        System.out.println("result : " + result);
+        System.out.println("result : " + result);
 
     }
 
